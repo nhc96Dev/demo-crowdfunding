@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  body {
+    @apply font-primary text-base font-normal mx-auto text-text1 bg-lite;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    max-width: 1440px;
+  }
+  input, textarea {
+    @apply outline-none
+  }
+
+}
+
+.quill {
+  @apply min-h-[420px] border border-strock rounded-10 px-25px py-15px;
+  .ql-toolbar.ql-snow{
+    @apply border-none text-center mb-25px;
+  }
+  .ql-container.ql-snow {
+    @apply border-none;
+  }
+  .ql-toolbar.ql-snow .ql-formats {
+    @apply border-none bg-text4 bg-opacity-[0.08] rounded-10 py-[14px] px-5 inline-block mr-0;
+  }
+  .ql-editor {
+    @apply p-0 font-primary text-sm;
+  }
+  .ql-editor.ql-blank::before {
+    @apply text-text4 text-sm pointer-events-none left-0 right-0 not-italic;
+  }
+}
+
+.gradient-banner {
+  background-image: linear-gradient(180deg, (#20123F00 -10%), rgba(0,0,0,0.4) 100%), url("../public/banner.png");
+}
+
+.ReactModal__Body--open {
+  overflow: hidden;
+}
+
+.text-nowrap {
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.scroll-hidden {
+-ms-overflow-style: none;
+scrollbar-width: none;
+}
+.scroll-hidden::-webkit-scrollbar {
+ display: none;
+}
+
+.shadow-1 {
+  box-shadow: -4px 4px 8px rgba(226, 226, 226, 0.2),
+    4px 4px 8px rgba(226, 226, 226, 0.2);
+}
+.shadow-2 {
+  box-shadow: -10px 15px 20px rgba(231, 228, 228, 0.15), 10px 10px 20px rgba(231, 228, 228, 0.15)
+}

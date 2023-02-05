@@ -1,58 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { lazy, Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
+import Modal from "react-modal";
+import CheckoutPage from "pages/CheckoutPage";
+import ShippingPage from "pages/ShippingPage";
 
-function App() {
+const LayoutDashboard = lazy(() => import("layout/LayoutDashboard"));
+const SignUpPage = lazy(() => import("pages/SignUpPage"));
+const SignInPage = lazy(() => import("pages/SignInPage"));
+const DashboardPage = lazy(() => import("pages/DashboardPage"));
+const CampaignPage = lazy(() => import("pages/CampaignPage"));
+const StartCampaignPage = lazy(() => import("pages/StartCampaignPage"));
+const CampaignView = lazy(() => import("modules/campaign/CampaignView"));
+const LayoutPayment = lazy(() => import("layout/LayoutPayment"));
+
+const customStyles = {
+  content: {},
+};
+
+Modal.setAppElement("#root");
+Modal.defaultStyles = {};
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <Suspense>
+      <Routes>
+        <Route element={<LayoutDashboard></LayoutDashboard>}>
+          <Route path="/" element={<DashboardPage></DashboardPage>}></Route>
+          <Route
+            path="/campaign"
+            element={<CampaignPage></CampaignPage>}
+          ></Route>
+          <Route
+            path="/start-campaign"
+            element={<StartCampaignPage></StartCampaignPage>}
+          ></Route>
+          <Route
+            path="/campaign/:slug"
+            element={<CampaignView></CampaignView>}
+          ></Route>
+        </Route>
+        <Route element={<LayoutPayment></LayoutPayment>}>
+          <Route
+            path="/checkout"
+            element={<CheckoutPage></CheckoutPage>}
+          ></Route>
+          <Route
+            path="shipping-address"
+            element={<ShippingPage></ShippingPage>}
+          ></Route>
+        </Route>
+
+        <Route path="/sign-up" element={<SignUpPage></SignUpPage>}></Route>
+        <Route path="/sign-in" element={<SignInPage></SignInPage>}></Route>
+      </Routes>
+    </Suspense>
   );
-}
+};
 
 export default App;
