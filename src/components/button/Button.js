@@ -20,7 +20,7 @@ const Button = ({
   );
 
   let defaultClassName =
-    "flex items-center justify-center lg:p-13px lg:text-base font-semibold rounded-10 lg:min-h-[52px]";
+    "flex items-center justify-center lg:py-13px lg:text-base font-semibold rounded-10 lg:min-h-[52px]";
   switch (kind) {
     case "primary":
       defaultClassName = defaultClassName + " bg-primary text-white";

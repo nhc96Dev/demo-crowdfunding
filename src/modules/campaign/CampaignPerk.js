@@ -1,7 +1,6 @@
 import { Button } from "components/button";
 import { defaultImage } from "constants/global";
 import React from "react";
-import CampTitle from "./parts/CampTitle";
 
 const CampaignPerk = ({ showButton = false }) => {
   return (

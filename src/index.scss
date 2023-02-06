@@ -15,10 +15,11 @@
 
 }
 
+// *** custom react quill editor
 .quill {
   @apply min-h-[420px] border border-strock rounded-10 px-25px py-15px;
   .ql-toolbar.ql-snow{
-    @apply border-none text-center mb-25px;
+    @apply border-none text-center mb-25px p-0;
   }
   .ql-container.ql-snow {
     @apply border-none;
@@ -65,4 +66,52 @@ scrollbar-width: none;
 }
 .shadow-2 {
   box-shadow: -10px 15px 20px rgba(231, 228, 228, 0.15), 10px 10px 20px rgba(231, 228, 228, 0.15)
+}
+
+// *** custom date picker
+body {
+  .react-date-picker {
+    @apply w-full px-25px py-15px text-sm font-medium border rounded-xl placeholder:text-text4 dark:placeholder:text-text2 dark:text-white bg-transparent border-strock text-text1 dark:border-darkStroke h-[52px];
+    .react-date-picker__wrapper {
+      @apply border-none;
+    }
+    .react-date-picker__clear-button {
+      @apply hidden;
+    }
+    .react-date-picker__inputGroup {
+      @apply p-0 min-w-0
+    }
+    .react-date-picker__button {
+      padding: 0;
+    }
+    .react-date-picker__button:enabled:hover .react-date-picker__button__icon {
+      @apply stroke-primary
+    }
+    .react-date-picker__calendar--open, .react-date-picker__calendar--closed {
+      position: absolute
+    }
+  }
+  .react-date-picker__calendar .react-calendar {
+    @apply border-none shadow rounded-10;
+  }
+  .react-calendar__navigation button:enabled:hover,
+  .react-calendar__navigation button:enabled:focus {
+    @apply bg-transparent;
+  }
+  .react-calendar__tile:not(.react-calendar__tile--active, .react-calendar__tile--now):enabled:hover,
+  .react-calendar__tile:not(.react-calendar__tile--active, .react-calendar__tile--now):enabled:focus {
+    @apply bg-transparent text-primary;
+  }
+  .react-calendar__tile--active:enabled:hover,
+  .react-calendar__tile--active:enabled:focus,
+  .react-calendar__tile--active,
+  .react-calendar__tile--active:hover {
+    @apply bg-primary20% text-white rounded-5;
+  }
+  .react-calendar__tile--now:enabled:hover,
+  .react-calendar__tile--now:enabled:focus,
+  .react-calendar__tile--now,
+  .react-calendar__tile--now:hover {
+    @apply bg-secondary40% text-white rounded-5;
+  }
 }

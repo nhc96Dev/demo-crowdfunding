@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.scss";
 import { store } from "./store/configureStore";
 import { BrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -14,6 +16,7 @@ root.render(
   <BrowserRouter>
     <Provider store={store}>
       <App />
+      <ToastContainer bodyClassName="font-primary text-sm" />
     </Provider>
   </BrowserRouter>
 );

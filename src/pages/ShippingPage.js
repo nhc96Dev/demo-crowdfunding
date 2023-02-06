@@ -63,7 +63,9 @@ const ShippingPage = () => {
           </FormGroup>
         </FormRow>
         <div className="flex items-center gap-x-5 mb-11">
-          <Checkbox>Remember this address for next time use</Checkbox>
+          <Checkbox control={control}>
+            Remember this address for next time use
+          </Checkbox>
         </div>
         <h2 className="mb-10 font-bold leading-normal text-30px">Payment</h2>
         <Payment></Payment>

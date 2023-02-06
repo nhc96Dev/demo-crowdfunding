@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { withErrorBoundary } from "react-error-boundary";
@@ -6,9 +5,11 @@ import "react-quill/dist/quill.snow.css";
 import ReactQuill, { Quill } from "react-quill";
 import ImageUploader from "quill-image-uploader";
 import ErrorComponent from "components/common/ErrorComponent";
+import { imgbbAPI } from "config/config";
+import axios from "axios";
 Quill.register("modules/imageUploader", ImageUploader);
 
-const QuillEditor = ({ content, setContent }) => {
+const ReactQuillEditor = ({ content, setContent }) => {
   const modules = useMemo(
     () => ({
       toolbar: [
@@ -25,22 +26,21 @@ const QuillEditor = ({ content, setContent }) => {
         { list: "bullet" },
       ],
 
-      // imageUploader: {
-      //   upload: async (file) => {
-      //     const bodyFormData = new FormData();
-      //     console.log("upload: ~ bodyFormData", bodyFormData);
-      //     bodyFormData.append("image", file);
-      //     const response = await axios({
-      //       method: "post",
-      //       url: "https://api.imgbb.com/1/upload?key=7d0f23f1346679297a19b3eaf36d3f87",
-      //       data: bodyFormData,
-      //       headers: {
-      //         "Content-Type": "multipart/form-data",
-      //       },
-      //     });
-      //     return response.data.data.url;
-      //   },
-      // },
+      imageUploader: {
+        upload: async (file) => {
+          const bodyFormData = new FormData();
+          bodyFormData.append("image", file);
+          const response = await axios({
+            method: "post",
+            url: imgbbAPI,
+            data: bodyFormData,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          return response.data.data.url;
+        },
+      },
     }),
     []
   );
@@ -54,11 +54,11 @@ const QuillEditor = ({ content, setContent }) => {
     />
   );
 };
-QuillEditor.propTypes = {
+ReactQuillEditor.propTypes = {
   content: PropTypes.string.isRequired,
   setContent: PropTypes.func.isRequired,
 };
 
-export default withErrorBoundary(QuillEditor, {
+export default withErrorBoundary(ReactQuillEditor, {
   FallbackComponent: ErrorComponent,
 });

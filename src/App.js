@@ -13,6 +13,7 @@ const StartCampaignPage = lazy(() => import("pages/StartCampaignPage"));
 const CampaignView = lazy(() => import("modules/campaign/CampaignView"));
 const LayoutPayment = lazy(() => import("layout/LayoutPayment"));
 
+// eslint-disable-next-line no-unused-vars
 const customStyles = {
   content: {},
 };

@@ -10,7 +10,7 @@ const PaymentPage = () => {
         </h1>
         <p className="text-base text-text3 mb-60px">
           To Start Processing credit card payments and donations, you will need
-          to select either Paypal or Payoneer{" "}
+          to select either Paypal or Payoneer
         </p>
         <div className="grid grid-cols-[repeat(2,minmax(0,1fr))] space-x-10">
           <div className="flex flex-col items-center justify-center w-full px-6 pb-6 bg-white shadow-2 pt-35px rounded-15">

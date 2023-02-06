@@ -2,21 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDropdown } from "./dropdown-context";
 
-const Select = ({
-  placeholder = "",
-  className = "",
-  selectedCategory = "",
-}) => {
+const Select = ({ placeholder = "", className = "", selectedName = "" }) => {
   const { toggle, show } = useDropdown();
   return (
     <div
-      className={`flex items-center justify-between py-15px px-25px bg-transparent text-text1 border border-strock rounded-10 cursor-pointer text-sm ${className}`}
+      className={`flex items-center justify-between py-15px px-25px bg-transparent text-text1 border border-strock rounded-10 cursor-pointer text-sm h-[52px] ${className}`}
       onClick={toggle}
     >
-      {selectedCategory ? (
-        <span className="font-medium text-primary">{selectedCategory}</span>
+      {selectedName ? (
+        <span className="text-sm capitalize text-text1">{selectedName}</span>
       ) : (
-        <span className="text-text4">{placeholder}</span>
+        <span className="text-sm capitalize text-text4">{placeholder}</span>
       )}
 
       <span className="text-text4">
