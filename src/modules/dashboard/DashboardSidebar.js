@@ -7,6 +7,8 @@ import IconLogout from "components/icons/IconLogout";
 import IconPayment from "components/icons/IconPayment";
 import IconProfile from "components/icons/IconProfile";
 import IconWithdraw from "components/icons/IconWithdraw";
+import { useDispatch } from "react-redux";
+import { authLogOut } from "store/auth/auth-slice";
 
 const sidebarLinks = [
   {
@@ -38,7 +40,6 @@ const sidebarLinks = [
     icon: <IconLogout></IconLogout>,
     title: "Logout",
     url: "/logout",
-    onClick: () => {},
   },
   {
     icon: <IconDarkmode></IconDarkmode>,
@@ -48,24 +49,39 @@ const sidebarLinks = [
   },
 ];
 const DashboardSidebar = () => {
-  const navLinkClass =
-    "flex items-center md:justify-center gap-x-5 md:w-12 md:h-12 md:rounded-10 md:mb-30px last:mt-auto last:mb-0 last:shadow-sdprimary";
+  const navlinkClass =
+    "flex items-center gap-x-5 md:w-12 md:h-12 md:justify-center md:rounded-10 md:mb-30px last:mt-auto last:mb-0 last:bg-white last:shadow-sdprimary";
+  const dispatch = useDispatch();
   return (
     <div className="mt-4 w-full md:w-[76px] h-[733px] rounded-20 bg-white shadow-sdprimary px-[14px] py-10 flex flex-col flex-shrink-0">
-      {sidebarLinks.map((link) => (
-        <NavLink
-          key={link.title}
-          to={link.url}
-          className={({ isActive }) =>
-            isActive
-              ? `${navLinkClass} text-primary bg-primaryExtra2`
-              : `${navLinkClass} text-icon-color`
-          }
-        >
-          <span>{link.icon}</span>
-          <span className="md:hidden">{link.title}</span>
-        </NavLink>
-      ))}
+      {sidebarLinks.map((link) => {
+        if (link.url === "/logout") {
+          return (
+            <button
+              onClick={() => dispatch(authLogOut())}
+              className={navlinkClass}
+              key={link.title}
+            >
+              <span className="text-icon-color">{link.icon}</span>
+              <span className="md:hidden">{link.title}</span>
+            </button>
+          );
+        }
+        return (
+          <NavLink
+            to={link.url}
+            key={link.title}
+            className={({ isActive }) =>
+              isActive
+                ? `${navlinkClass} text-primary bg-primary bg-opacity-20`
+                : `${navlinkClass} text-icon-color`
+            }
+          >
+            <span>{link.icon}</span>
+            <span className="md:hidden">{link.title}</span>
+          </NavLink>
+        );
+      })}
     </div>
   );
 };

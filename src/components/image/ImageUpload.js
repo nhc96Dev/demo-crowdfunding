@@ -21,7 +21,6 @@ const ImageUpload = ({ onChange, name = "" }) => {
     const imageData = response.data.data;
     if (!imageData) {
       toast.error("Image upload failed", {
-        delay: 3000,
         pauseOnFocusLoss: false,
         pauseOnHover: false,
       });

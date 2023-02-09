@@ -2,13 +2,15 @@ import React, { useEffect } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useToggleValue from "hooks/useToggleValue";
 import LayoutAuthentication from "layout/LayoutAuthentication";
 import { Button, ButtonGoogle } from "components/button";
 import { Label } from "components/label";
 import { Input } from "components/input";
 import IconEyeToggle from "components/icons/IconEyeToggle";
+import { useDispatch, useSelector } from "react-redux";
+import { authLogin } from "store/auth/auth-slice";
 
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Invaild email"),
@@ -29,19 +31,35 @@ const SignInPage = () => {
   });
   const { value: showPassword, handleToggleValue: handleToggleShowPassword } =
     useToggleValue(false);
+
+  const dispatch = useDispatch();
   const handleSignIn = (values) => {
     if (!isValid) return null;
-    console.log("handleSignIn ~ values", values);
+    try {
+      dispatch(authLogin(values));
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
   useEffect(() => {
-    document.title = "Sign In";
+    if (user && user.id) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    document.title = "Lgoin";
   }, []);
   return (
     <LayoutAuthentication heading="Welcome Back!">
       <p className="text-xs font-normal text-center lg:text-sm text-text3 mb-25px lg:mb-30px">
         Dont have an account?{" "}
-        <Link to="/sign-up" className="font-medium underline text-primary">
-          Sign up
+        <Link to="/register" className="font-medium underline text-primary">
+          Register
         </Link>
       </p>
       <ButtonGoogle

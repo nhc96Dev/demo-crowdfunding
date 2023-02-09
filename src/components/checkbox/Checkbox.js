@@ -1,28 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useController } from "react-hook-form";
 
-const Checkbox = ({
-  control,
-  name = "",
-  checked,
-  onClick = () => {},
-  children,
-}) => {
-  const { field } = useController({
-    control,
-    name,
-    defaultValue: "",
-  });
+const Checkbox = ({ name = "", checked, onClick = () => {}, children }) => {
   return (
     <label>
       <input
         type="checkbox"
         id={name}
         checked={checked}
-        onClick={onClick}
+        onChange={() => {}}
         className="hidden"
-        {...field}
+        onClick={onClick}
       />
       <div className="flex items-start gap-x-5">
         <div
@@ -55,7 +43,6 @@ const Checkbox = ({
 Checkbox.propTypes = {
   name: PropTypes.string,
   checked: PropTypes.bool,
-  control: PropTypes.any.isRequired,
   onClick: PropTypes.func,
   children: PropTypes.node,
 };

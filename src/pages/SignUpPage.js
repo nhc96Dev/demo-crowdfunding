@@ -11,6 +11,8 @@ import { Input } from "components/input";
 import { Checkbox } from "components/checkbox";
 import useToggleValue from "hooks/useToggleValue";
 import IconEyeToggle from "components/icons/IconEyeToggle";
+import { useDispatch } from "react-redux";
+import { authRegister } from "store/auth/auth-slice";
 
 const schema = yup.object({
   name: yup.string().required("This field is required"),
@@ -22,51 +24,43 @@ const schema = yup.object({
     .string()
     .min(8, "Password must be 8 character")
     .required("This field is required"),
-  term: yup
-    .boolean()
-    .required("The terms and  Privacy policy must be accepted")
-    .oneOf([true], "The terms and  Privacy policy must be accepted"),
 });
 
-const SignUpPage = () => {
+const RegisterPage = () => {
   const {
     handleSubmit,
     control,
-    watch,
-    setValue,
-    formState: { isValid, isSubmitting, errors },
+    reset,
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onSubmit",
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      term: false,
-    },
   });
 
-  const watchTerm = watch("term");
-  const handleToggleTerm = () => {
-    setValue("term", !watchTerm);
+  const dispatch = useDispatch();
+  const handleSignUp = async (values) => {
+    if (!acceptTerm) return null;
+    try {
+      dispatch(authRegister(values));
+      reset({});
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   const { value: showPassword, handleToggleValue: handleToggleShowPassword } =
-    useToggleValue(false);
+    useToggleValue();
+  const { value: acceptTerm, handleToggleValue: handleToggleTerm } =
+    useToggleValue();
 
-  const handleSignUp = (values) => {
-    if (!isValid) return null;
-    console.log("handleSignUp ~ values", values);
-  };
   useEffect(() => {
-    document.title = "Sign Up";
+    document.title = "Register";
   }, []);
   return (
-    <LayoutAuthentication heading="Sign Up">
+    <LayoutAuthentication heading="Register">
       <p className="text-xs font-normal text-center lg:text-sm text-text3 mb-25px lg:mb-30px">
         Already have an account?{" "}
-        <Link to="/sign-in" className="font-medium underline text-primary">
-          Sign in
+        <Link to="/login" className="font-medium underline text-primary">
+          Login
         </Link>
       </p>
       <ButtonGoogle></ButtonGoogle>
@@ -112,16 +106,10 @@ const SignUpPage = () => {
           <Checkbox
             control={control}
             name="term"
-            checked={watchTerm === true}
+            checked={acceptTerm}
             onClick={handleToggleTerm}
           >
-            <p
-              className={`flex-1 text-xs lg:text-sm   ${
-                errors?.term?.message
-                  ? "text-error"
-                  : "text-text2 dark:text-text3"
-              }`}
-            >
+            <p className="flex-1 text-xs lg:text-sm text-text2 dark:text-text3">
               I agree to the{" "}
               <span className="text-secondary lg:underline">Terms of Use</span>{" "}
               and have read and understand the{" "}
@@ -132,12 +120,7 @@ const SignUpPage = () => {
           </Checkbox>
         </div>
 
-        <Button
-          type="submit"
-          className="w-full"
-          isLoading={isSubmitting}
-          kind="primary"
-        >
+        <Button type="submit" className="w-full" kind="primary">
           Create my account
         </Button>
       </form>
@@ -145,4 +128,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default RegisterPage;

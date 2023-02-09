@@ -1,8 +1,9 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Modal from "react-modal";
-import CheckoutPage from "pages/CheckoutPage";
-import ShippingPage from "pages/ShippingPage";
+import { useDispatch, useSelector } from "react-redux";
+import { authRefreshToken, authUpdateUser } from "store/auth/auth-slice";
+import { getTokens, logOut } from "utils/auth";
 
 const LayoutDashboard = lazy(() => import("layout/LayoutDashboard"));
 const SignUpPage = lazy(() => import("pages/SignUpPage"));
@@ -12,6 +13,8 @@ const CampaignPage = lazy(() => import("pages/CampaignPage"));
 const StartCampaignPage = lazy(() => import("pages/StartCampaignPage"));
 const CampaignView = lazy(() => import("modules/campaign/CampaignView"));
 const LayoutPayment = lazy(() => import("layout/LayoutPayment"));
+const CheckoutPage = lazy(() => import("pages/CheckoutPage"));
+const ShippingPage = lazy(() => import("pages/ShippingPage"));
 
 // eslint-disable-next-line no-unused-vars
 const customStyles = {
@@ -22,6 +25,29 @@ Modal.setAppElement("#root");
 Modal.defaultStyles = {};
 
 const App = () => {
+  const { user } = useSelector((state) => state.auth);
+  console.log("App ~ user", user);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (user && user.id) {
+      const { access_token } = getTokens();
+      dispatch(
+        authUpdateUser({
+          user: user,
+          accessToken: access_token,
+        })
+      );
+    } else {
+      const { refresh_token } = getTokens();
+      if (refresh_token) {
+        // Gọi lên server để lấy access_token mới
+        dispatch(authRefreshToken(refresh_token));
+      } else {
+        dispatch(authUpdateUser({ user: undefined, accessToken: null }));
+        logOut();
+      }
+    }
+  }, [dispatch, user]);
   return (
     <Suspense>
       <Routes>
@@ -51,8 +77,8 @@ const App = () => {
           ></Route>
         </Route>
 
-        <Route path="/sign-up" element={<SignUpPage></SignUpPage>}></Route>
-        <Route path="/sign-in" element={<SignInPage></SignInPage>}></Route>
+        <Route path="/register" element={<SignUpPage></SignUpPage>}></Route>
+        <Route path="/login" element={<SignInPage></SignInPage>}></Route>
       </Routes>
     </Suspense>
   );

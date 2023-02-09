@@ -42,7 +42,10 @@ const CampaignAddNew = () => {
         );
         setCountries(response.data);
       } catch (error) {
-        toast.error(error.message, { delay: 3000, pauseOnFocusLoss: false });
+        toast.error(error.message, {
+          pauseOnHover: false,
+          pauseOnFocusLoss: false,
+        });
       }
     }
     fetchCountries();
@@ -83,13 +86,13 @@ const CampaignAddNew = () => {
         endDate: endDate.toLocaleDateString("vi-VI"),
       });
       toast.success("Create new campaign successfully", {
-        delay: 3000,
+        pauseOnHover: false,
         pauseOnFocusLoss: false,
       });
       resetValues();
     } catch (error) {
       toast.error("Can not create new campaign", {
-        delay: 3000,
+        pauseOnHover: false,
         pauseOnFocusLoss: false,
       });
     }
