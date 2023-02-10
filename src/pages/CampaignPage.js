@@ -2,9 +2,12 @@ import { Button } from "components/button";
 import Heading from "components/common/Heading";
 import CampaignFeature from "modules/campaign/CampaignFeature";
 import CampaignGrid from "modules/campaign/CampaignGrid";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 
 const CampaignPage = () => {
+  useEffect(() => {
+    document.title = "Campaign";
+  }, []);
   return (
     <Fragment>
       <div className="mb-10 bg-white rounded-20 flex items-center justify-between py-[31px] px-10">

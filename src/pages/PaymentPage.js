@@ -1,7 +1,10 @@
 import { Button } from "components/button";
-import React from "react";
+import React, { useEffect } from "react";
 
 const PaymentPage = () => {
+  useEffect(() => {
+    document.title = "Payment";
+  }, []);
   return (
     <div className="pt-[66px]">
       <div className="w-full max-w-[624px] mx-auto text-center">
@@ -18,7 +21,7 @@ const PaymentPage = () => {
             <p className="mb-6 text-sm text-text3">
               Get paid directly via Paypal.
             </p>
-            <Button className="w-full bg-secondary bg-opacity-20 text-secondary">
+            <Button kind="ghost" className="w-full">
               Connect
             </Button>
           </div>
@@ -27,7 +30,9 @@ const PaymentPage = () => {
             <p className="mb-6 text-sm text-text3">
               Get paid worldwide your Work.
             </p>
-            <Button className="w-full text-white bg-secondary">Connect</Button>
+            <Button kind="ghost" className="w-full">
+              Connect
+            </Button>
           </div>
         </div>
       </div>

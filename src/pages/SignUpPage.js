@@ -41,7 +41,7 @@ const RegisterPage = () => {
   const handleSignUp = async (values) => {
     if (!acceptTerm) return null;
     try {
-      dispatch(authRegister(values));
+      dispatch(authRegister({ ...values, permissions: [] }));
       reset({});
     } catch (error) {
       console.log(error);

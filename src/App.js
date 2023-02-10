@@ -4,6 +4,9 @@ import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { authRefreshToken, authUpdateUser } from "store/auth/auth-slice";
 import { getTokens, logOut } from "utils/auth";
+import RequiredAuthPage from "pages/RequiredAuthPage";
+import UnauthorizePage from "pages/UnauthorizePage";
+import { permissions } from "constants/Permissions";
 
 const LayoutDashboard = lazy(() => import("layout/LayoutDashboard"));
 const SignUpPage = lazy(() => import("pages/SignUpPage"));
@@ -12,9 +15,12 @@ const DashboardPage = lazy(() => import("pages/DashboardPage"));
 const CampaignPage = lazy(() => import("pages/CampaignPage"));
 const StartCampaignPage = lazy(() => import("pages/StartCampaignPage"));
 const CampaignView = lazy(() => import("modules/campaign/CampaignView"));
+const PaymentPage = lazy(() => import("pages/PaymentPage"));
 const LayoutPayment = lazy(() => import("layout/LayoutPayment"));
 const CheckoutPage = lazy(() => import("pages/CheckoutPage"));
 const ShippingPage = lazy(() => import("pages/ShippingPage"));
+const WithdrawPage = lazy(() => import("pages/WithdrawPage"));
+const ProfilePage = lazy(() => import("pages/ProfilePage"));
 
 // eslint-disable-next-line no-unused-vars
 const customStyles = {
@@ -30,6 +36,7 @@ const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (user && user.id) {
+      console.log("running");
       const { access_token } = getTokens();
       dispatch(
         authUpdateUser({
@@ -58,14 +65,33 @@ const App = () => {
             element={<CampaignPage></CampaignPage>}
           ></Route>
           <Route
-            path="/start-campaign"
-            element={<StartCampaignPage></StartCampaignPage>}
-          ></Route>
+            element={
+              <RequiredAuthPage
+                allowPermissions={[permissions.campaign.CREATE_CAMPAIGN]}
+              ></RequiredAuthPage>
+            }
+          >
+            <Route
+              path="/start-campaign"
+              element={<StartCampaignPage></StartCampaignPage>}
+            ></Route>
+          </Route>
           <Route
             path="/campaign/:slug"
             element={<CampaignView></CampaignView>}
           ></Route>
+          <Route path="payment" element={<PaymentPage></PaymentPage>}></Route>
+          <Route
+            path="/withdraw"
+            element={<WithdrawPage></WithdrawPage>}
+          ></Route>
+          <Route path="/profile" element={<ProfilePage></ProfilePage>}></Route>
+          <Route
+            path="/unauthorize"
+            element={<UnauthorizePage></UnauthorizePage>}
+          ></Route>
         </Route>
+
         <Route element={<LayoutPayment></LayoutPayment>}>
           <Route
             path="/checkout"

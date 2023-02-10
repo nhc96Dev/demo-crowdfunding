@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useToggleValue from "hooks/useToggleValue";
 import LayoutAuthentication from "layout/LayoutAuthentication";
 import { Button, ButtonGoogle } from "components/button";
 import { Label } from "components/label";
 import { Input } from "components/input";
 import IconEyeToggle from "components/icons/IconEyeToggle";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authLogin } from "store/auth/auth-slice";
 
 const schema = yup.object({
@@ -24,10 +24,6 @@ const SignInPage = () => {
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onSubmit",
-    defaultValues: {
-      email: "",
-      password: "",
-    },
   });
   const { value: showPassword, handleToggleValue: handleToggleShowPassword } =
     useToggleValue(false);
@@ -41,15 +37,6 @@ const SignInPage = () => {
       console.log(error);
     }
   };
-
-  const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
-  useEffect(() => {
-    if (user && user.id) {
-      navigate("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
 
   useEffect(() => {
     document.title = "Lgoin";
